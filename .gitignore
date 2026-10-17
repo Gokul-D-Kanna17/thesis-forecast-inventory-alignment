@@ -1,0 +1,39 @@
+# Python bytecode and environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.python-version.local
+
+# Jupyter / editor metadata
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated simulation output (large / reproducible)
+thesis_short_runs/
+outputs/
+results/generated/
+data/raw/
+data/interim/
+**/daily_records.csv
+**/inventory_history.csv
+**/backlog_history.csv
+**/intransit_history.csv
+**/shipments.csv
+**/demand_signals.npy
+*.log
+
+# Temporary archives
+*.zip
+*.tmp
