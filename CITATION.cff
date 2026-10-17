@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this research code, please cite the thesis project and identify the repository version you used."
+type: software
+title: "From Forecast Accuracy to Inventory Decisions: Evaluating Forecast-to-Decision Alignment under Normal and Disrupted Supply-Chain Conditions"
+authors:
+  - family-names: Durairaj
+    given-names: "Gokul Kanna"
+url: "https://github.com/Gokul-D-Kanna17/thesis-forecast-inventory-alignment"
+repository-code: "https://github.com/Gokul-D-Kanna17/thesis-forecast-inventory-alignment"

@@ -1,5 +1,5 @@
-# Archived working notebook
+# Historical notebook archive
 
-`thesis_working_notebook_7300_days.ipynb` is copied from the supplied working notebook and retained as a historical research artifact. It has not been cleaned, re-executed, or converted into a reproducible clean notebook as part of this repository setup.
+`thesis_working_notebook_7300_days.ipynb` is an earlier working copy retained for research traceability. The organized 114-cell notebook in the parent `notebooks/` directory is the primary notebook for readers.
 
-Caution: notebook outputs may be stale or include failed diagnostic cells, and code contains machine-specific paths. Do not treat every displayed output as authoritative without reconciling it with the final verified result tables and actual code execution. The notebook is included for traceability, not as the execution entry point for the short-horizon experiments.
+The archived notebook has not been normalized into a reproducible pipeline. It contains local-environment assumptions and saved outputs that may not reflect the final verified state. Use it to understand the development history only; do not treat it as the execution entry point or as an authoritative results source.
