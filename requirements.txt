@@ -1,7 +1,14 @@
-numpy
-pandas
-scikit-learn
-statsmodels
-lightgbm
+# Pinned versions verified by the unit-test suite and a synthetic smoke test
+# (fit_and_forecast with Seasonal Naive / ETS / LightGBM, forecast_metrics,
+# compute_inventory_metrics) on Python 3.12. The historical experiment's
+# exact dependency versions were not reconstructed; these pins record the
+# environment the code was actually verified against.
+numpy==2.5.4
+pandas==3.0.6
+scikit-learn==1.9.1
+statsmodels==0.15.0
+lightgbm==4.7.0
+# Notebook plotting / display only; not exercised by the test suite or the
+# smoke test, so left unpinned rather than pinning an unverified version.
 matplotlib
 ipython
