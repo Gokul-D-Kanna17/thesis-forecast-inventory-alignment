@@ -1,4 +1,4 @@
-"""F01 — Inventory-window recomputation from frozen source CSVs.
+"""F01 - Inventory-window recomputation from frozen source CSVs.
 
 Recomputes inventory outcomes for all scenarios and models over ONE
 common test window (default days 6200-7299 inclusive) from the underlying
@@ -130,7 +130,7 @@ def _read_validated_chunks(path: Path, required: list[str], sort_cols: list[str]
     Sortedness is type-aware (numeric day sorts numerically, not
     lexicographically). Duplicates are checked on unique_cols (None
     skips the duplicate check, used for shipments, which have no unique
-    key — two identical shipments can be legitimate). Because sortedness
+    key - two identical shipments can be legitimate). Because sortedness
     is verified, a duplicate unique key is necessarily adjacent
     (within-chunk check + boundary check), so the check is complete.
     """

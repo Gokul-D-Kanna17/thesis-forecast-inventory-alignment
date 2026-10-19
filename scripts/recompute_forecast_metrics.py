@@ -1,4 +1,4 @@
-"""F05 — Forecast-metric recomputation from forecast outputs + training data.
+"""F05 - Forecast-metric recomputation from forecast outputs + training data.
 
 One consistent definition across all models, scenarios, and horizons:
   - MAE and RMSE per item over the same test window (test_start..test_end).

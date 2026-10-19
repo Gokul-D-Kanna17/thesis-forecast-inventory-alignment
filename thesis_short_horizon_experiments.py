@@ -9,7 +9,7 @@ Forecast horizon: 7 days. No composite score or overall model winner is made.
 
 Inventory metric definitions (aggregation version
 "inventory-metrics-v2-daily-aggregate"): destination inventory, destination
-backlog, and network inventory are DAILY AGGREGATES — each day's value is the
+backlog, and network inventory are DAILY AGGREGATES - each day's value is the
 sum across items (and across nodes for network inventory); the mean and
 maximum are taken across test days, and the final backlog is the last
 test day's aggregate. This matches the 7,300-day notebook's aggregation
@@ -74,7 +74,7 @@ LGB_PARAMS = {
     "num_leaves": 31, "max_depth": -1, "subsample": 0.8,
     "colsample_bytree": 0.8, "random_state": SEED, "verbosity": -1,
 }
-# LightGBM subsampling audit (do NOT "fix" by adding subsample_freq — that
+# LightGBM subsampling audit (do NOT "fix" by adding subsample_freq - that
 # would change the experiment):
 # - subsample (= bagging_fraction) = 0.8 is INERT here because
 #   subsample_freq (= bagging_freq) is unset and defaults to 0, and
@@ -92,22 +92,27 @@ LGB_PARAMS = {
 # historical one.
 
 # Direction-oriented rank convention for the runner's inventory
-# metrics. "lower" = rank 1 is the smallest value; "higher" = rank 1
-# is the largest value. The direction is a numerical convention for
-# ranking, NOT a claim that the value is desirable: lower inventory
-# is not automatically better without an explicit cost or service
-# objective, and shipment units are a throughput measure, not a
-# quality measure. No composite score is constructed.
+# metrics. ONLY the six primary metrics defined by the thesis
+# (Section 4.4 and Appendix B) are ranked: fill rate (higher is
+# better) and five lower-is-better measures. The other recorded
+# measures - maximum destination inventory, maximum total network
+# inventory, final destination backlog, and total shipment units -
+# are retained as DESCRIPTIVE outcomes and are NOT ranked: the
+# thesis states they are not assigned a model ranking because a
+# unique optimisation direction is not specified for them, and
+# shipment volume alone does not define better or worse
+# performance. "Lower" = rank 1 is the smallest value;
+# "higher" = rank 1 is the largest value. The direction is a
+# numerical convention for ranking, NOT a claim that the value is
+# desirable: lower inventory is not automatically better without
+# an explicit cost or service objective. No composite score is
+# constructed.
 INVENTORY_RANK_DIRECTIONS = {
     "total_unfilled_demand": "lower",
     "average_destination_inventory": "lower",
     "average_destination_backlog": "lower",
     "maximum_destination_backlog": "lower",
     "average_total_network_inventory": "lower",
-    "maximum_destination_inventory": "lower",
-    "maximum_total_network_inventory": "lower",
-    "final_destination_backlog": "lower",
-    "total_shipment_units_test_window": "lower",
     "fill_rate": "higher",
 }
 HORIZONS = {

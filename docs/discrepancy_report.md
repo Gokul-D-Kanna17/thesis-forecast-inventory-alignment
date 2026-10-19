@@ -1,6 +1,6 @@
-# F05 discrepancy report — locked-table / slide values vs recomputed metrics
+# F05 discrepancy report - locked-table / slide values vs recomputed metrics
 
-**Status: BLOCKED — no recomputed values exist.**
+**Status: BLOCKED - no recomputed values exist.**
 
 Real-data recomputation is blocked because the required forecast and
 frozen-demand files are on `D:\ISOMORPH\thesis_frozen\` and are not
@@ -15,10 +15,10 @@ When real data is available, `scripts/recompute_forecast_metrics.py
 for differ rows. The script's discrepancy logic is tested synthetically
 (`tests/test_recompute_forecast_metrics.py::test_discrepancy_report`).
 
-## Prior Stage 1 trace (NOT a recomputation)
+## Prior trace (NOT a recomputation)
 
-The table below is the prior trace from reading the notebook and
-runner code (Stage 1 analysis). It is **not** a recomputation and must
+The table below is the earlier trace from reading the notebook and
+runner code. It is **not** a recomputation and must
 not be cited as one. It records which locked values are traceable to
 a notebook computation, which are mixed-aggregation, and which are
 untraceable.
@@ -37,8 +37,12 @@ untraceable.
 Key cross-check (prior trace, not recomputation): Supply demand equals
 Normal demand, so Seasonal Naïve forecasts must be identical; locked
 MAE matches (17.382436 vs 17.3824) but locked RMSE/MASE differ
-(Normal 22.0150 / 1.0363 vs Supply 22.368811 / 0.999848), proving the
-locked aggregation differs by scenario.
+(Normal 22.0150 / 1.0363 vs Supply 22.368811 / 0.999848). This shows
+the locked RMSE/MASE values are inconsistent with the locked MAE if
+all three were computed from the same forecast set. Possible
+explanations include different aggregation, different source files
+for different metrics, or transcription differences; the available
+records do not distinguish between these.
 
 ## Files blocking recomputation
 
@@ -54,5 +58,5 @@ locked aggregation differs by scenario.
   (frozen demand: training series for the MASE denominator + actuals cross-check)
 
 The locked values themselves (for the `--locked-values` input) are in
-notebook cell 109 (hardcoded). They must be transcribed into a CSV by
-the user; they are not hardcoded in the script.
+notebook cell 109 (hardcoded). I still need to transcribe them into
+a CSV; they are not hardcoded in the script.

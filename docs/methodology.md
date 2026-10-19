@@ -1,14 +1,16 @@
-# Methodology and definitions — F02 / F05
+# Methodology and definitions - F02 / F05
 
-Staged note. Definitions only. No new claims about results: no thesis
-result has been recomputed in Stage 1 (real-data execution is BLOCKED;
-see `STAGE1_CLOSEOUT_REPORT.md`).
+These are the definitions my checks use. Nothing here claims a
+thesis result has been recomputed from the original experimental
+records - real-data runs are still blocked (see §10).
+Consistency checks calculated from printed thesis values are
+labelled as such where they appear.
 
 ## 1. Primary evaluation window
 
 - **7300-day horizon:** days **6200–7299 inclusive** (the test period
   after training 0–5099 and validation 5100–6199).
-- **Short-horizon runner:** the window is per-horizon — 1500–1999
+- **Short-horizon runner:** the window is per-horizon - 1500–1999
   (2000-day), 2250–2999 (3000-day), 4000–4999 (5000-day).
 - The window is **shared across all scenarios and models** within a
   horizon. Comparisons across scenarios or models are only valid over
@@ -31,7 +33,7 @@ see `STAGE1_CLOSEOUT_REPORT.md`).
   (11,899,428 Normal/Supply; 17,182,745 Demand/Combined) as the
   primary denominator and keep full-horizon demand as context.
 
-## 3. Forecast metrics (F05) — one consistent definition
+## 3. Forecast metrics (F05) - one consistent definition
 
 Per item, over the same test window:
 
@@ -75,7 +77,7 @@ Per item, over the same test window:
 
 ## 5. Forecast and inventory ranking direction
 
-### 5.1 Inventory aggregation (v2 — daily aggregates)
+### 5.1 Inventory aggregation (v2 - daily aggregates)
 
 Inventory and backlog levels are DAILY AGGREGATES
 (aggregation version `inventory-metrics-v2-daily-aggregate`, used by
@@ -92,7 +94,7 @@ both the short-horizon runner and the F01 recomputation script):
 This matches the 7,300-day notebook's aggregation (groupby day, sum,
 then mean/max). Earlier versions of the runner and the F01 script
 used per-row (day, item) means and single-record maxima; those are
-different quantities. A hand-computed fixture proves the
+different quantities. A hand-computed fixture shows the
 maximum-destination-backlog ranking CAN change under the corrected
 definition (one spiked model vs one steady model rank in opposite
 orders under the two definitions). Whether the thesis
@@ -113,21 +115,22 @@ direction, not a desirability judgement.
 
 - Forecast metrics (MAE, RMSE, MASE): **lower is better** (rank 1 =
   smallest value).
-- Inventory metrics in the F03 framework (six primary):
+- Inventory metrics in the F03 framework (six primary, thesis
+  Section 4.4 / Appendix B):
   - `fill_rate`: **higher is better** (rank 1 = largest value).
   - `total_unfilled_demand`, `average_destination_inventory`,
     `average_total_network_inventory`,
-    `average_destination_backlog`, `final_destination_backlog`:
+    `average_destination_backlog`, `maximum_destination_backlog`:
     **lower is better** as a numerical direction.
 - Inventory metrics are **operational outcomes, not a universal
   desirability scale**. Higher fill rate and lower unfilled demand
   have clear preferred directions, but lower inventory is not
   automatically better without an explicit cost or service objective.
-  No composite inventory score, no summed ranks, no single overall
-  winner may be constructed. Maximum inventories and total shipment
-  units are reported as quantities; when ranked (runner's 10-metric
-  set), they use the lower-is-better numerical direction, with the
-  same desirability caveat.
+  I build no composite inventory score, no summed ranks, no single
+  overall winner. Maximum inventories, final
+  destination backlog, and total shipment units are reported as
+  descriptive quantities and are NOT ranked (thesis Section 4.4 /
+  Appendix B).
 
 ## 6. Ties, rank differences, agreement, correlations
 
@@ -139,7 +142,7 @@ direction, not a desirability judgement.
 - **Model-level exact agreement:** share of model rows with Δ = 0.
 - **Complete-ordering agreement:** share of combinations where the
   full three-model forecast rank vector equals the full inventory
-  rank vector. These two estimands must never be conflated.
+  rank vector. Don't mix the two agreement measures up.
 - **Horizon/scenario breakdowns:** horizon-level and scenario-level
   mean absolute rank differences are rebuilt from the SAME
   underlying alignment table, with exact denominators (model-row
@@ -183,8 +186,10 @@ direction, not a desirability judgement.
   demonstrated for those tested conditions; it is not a verification
   of the thesis's 7300-day runs, which were not rerun.
 - **Passing code tests ≠ verifying thesis results.** Thesis results
-  are verified only by recomputation from real frozen outputs
+  can only be fully verified by recomputation from real frozen outputs
   (F01/F05 scripts on real data), which is BLOCKED (see §10).
+  Printed-value consistency checks are labelled as such and do
+  not substitute for that.
 
 ## 10. Unresolved data, execution, and provenance issues
 
@@ -192,7 +197,7 @@ direction, not a desirability judgement.
    `D:\ISOMORPH\thesis_frozen\` are inaccessible from this machine
    (no D:\ mount): 48 inventory files (4 scenarios × 3 models ×
    daily/inventory/backlog/shipments) + 4 frozen-demand files.
-   Exact paths in `STAGE1_CLOSEOUT_REPORT.md`.
+   Exact paths in `data_manifest.md`.
 2. **F05 real-data execution BLOCKED.** Forecast files + frozen
    demand (above) inaccessible. Normal's forecast file
    (`forecast_results\normal\test_forecasts.csv`) has **unresolved
@@ -241,6 +246,69 @@ direction, not a desirability judgement.
     protocol difference; do not "fix" by enabling bagging.
 12. **Maximum-backlog ranking sensitivity.** The corrected daily
     aggregate maximum backlog can rank models differently from the
-    old single-record maximum (proven by fixture). Whether the
+    old single-record maximum (shown by fixture). Whether the
     thesis maximum-backlog ranking changes is undecidable without
     the thesis daily records.
+
+## 13. Cross-checks against the thesis
+
+The full thesis-to-code mapping, with method, source, and
+uncertainty for each check, is in
+[`thesis_traceability_matrix.md`](thesis_traceability_matrix.md).
+The points that change how this repository's outputs must be read,
+in brief:
+
+1. **Table 4.2 alignment values match a 456-combination
+   framework recomputation, not the 288 framework the thesis's
+   §4.4 / Appendix B describe.** From Appendix B.4 values:
+   456 + `min` ties gives 285/288 = 0.9896, exact 93/288 =
+   32.29%, matching the reported 0.990 / 32.3% to the printed
+   precision; 288 gives 0.9722 (210/216), exact 34.72%
+   (75/216). F03 implements the 288 framework (the thesis's
+   stated 6-metric procedure) and therefore does NOT
+   reproduce Table 4.2, by design. The thesis does not state
+   which framework Table 4.2 uses; the 456 attribution is
+   inferred from the numbers. Full detail: matrix §9.3.
+2. **Tie method.** The thesis does not state a tie method. F03
+   uses average ties (a documented choice). The Table 4.2
+   numbers match only with `min` ties (456 framework). The
+   exact-agreement value is tie-method-insensitive; the MAD
+   is not. I don't switch to `min` just to match the printed
+   result.
+3. **Exact agreement has two definitions in the thesis.**
+   §4.5 / App. C.3 define it as model-level (Δ = 0 per model);
+   App. C.1 defines it as equality of the complete three-model
+   ordering. F03 reports both estimands, labelled distinctly.
+   Matrix §11.1.
+4. **Appendix B.8 vs B.4.** B.8's printed 7,300-day rankings
+   differ from the B.4-based orderings in 8 of 24 cells (a
+   9th, Normal fill, is consistent with B.4 rounding). The
+   network-inventory row differs from the B.4-based ordering
+   for all three non-Normal scenarios. The printed tables
+   alone do not establish which table is in error. Full
+   cell-by-cell detail: matrix §9.5.
+5. **Appendix A.4 vs locked table (Supply).** A.4 sets Supply
+   forecast values equal to Normal exactly; the locked table
+   has distinct Supply values (e.g. SN RMSE 22.368811 vs
+   Normal 22.0150). Unresolved - the locked Supply values
+   are themselves untraceable (cell 89 output truncated),
+   and the available records do not establish which source
+   is correct. Matrix §6.8, §11.4.
+6. **Appendix B.3 duplication.** B.3 (5,000-day) inventory
+   values are identical to B.2 (3,000-day). The thesis does
+   not state this. Method, source, and uncertainty:
+   `reproducibility_and_validation.md` §1.
+7. **Combined window.** The thesis's Appendix B.4 / Table 4.3
+   Combined values are full-horizon; other scenarios are
+   test-window. The thesis does not note the difference.
+   Matrix §5.4, §11.6.
+8. **EMA procedure.** The thesis describes only the
+   compensation injection; the code also uses the hold
+   injection for Supply/Combined. Equivalence demonstrated
+   for tested synthetic conditions only (F04).
+9. **Dashboard provenance.** The thesis's 2,000/3,000/5,000-day
+   experiments were generated in a dashboard-based
+   environment; the repo's runner is a reimplementation of
+   that protocol, not the original dashboard code.
+10. **ISOMORPH version.** Not recorded anywhere (thesis or
+    repo). The simulator files carry no version/commit.

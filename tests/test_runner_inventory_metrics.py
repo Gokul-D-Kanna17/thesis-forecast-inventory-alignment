@@ -265,8 +265,15 @@ class TestRankingDirections(unittest.TestCase):
                 {"Seasonal Naive": 1.0, "ETS": 2.0, "LightGBM": 3.0},
                 f"wrong ranks for {metric} (direction {runner.INVENTORY_RANK_DIRECTIONS[metric]})",
             )
-        self.assertEqual(len(ranked), 10 * 3)  # 10 metrics x 3 models
+        self.assertEqual(len(ranked), 6 * 3)  # 6 primary metrics x 3 models
         self.assertEqual(set(runner.INVENTORY_RANK_DIRECTIONS), set(ranked["metric"].unique().tolist()))
+        # The four descriptive measures are recorded as values but
+        # must NOT be ranked (thesis Section 4.4 / Appendix B).
+        for descriptive in ("maximum_destination_inventory",
+                            "maximum_total_network_inventory",
+                            "final_destination_backlog",
+                            "total_shipment_units_test_window"):
+            self.assertNotIn(descriptive, set(ranked["metric"].unique().tolist()))
 
     def test_ties_get_average_ranks(self):
         df = self._outcomes()

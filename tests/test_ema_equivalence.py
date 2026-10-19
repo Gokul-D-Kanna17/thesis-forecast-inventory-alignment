@@ -1,9 +1,9 @@
-"""F04 — EMA injection equivalence test (compensation vs hold).
+"""F04 - EMA injection equivalence test (compensation vs hold).
 
 Verifies that the two forecast-injection methods used in the thesis produce
 equivalent simulator decisions under matched inputs, using the ACTUAL
 simulator implementation and the ACTUAL injection methods from the thesis
-code — not a reimplementation of the EMA formula in isolation.
+code - not a reimplementation of the EMA formula in isolation.
 
 Sources (read before writing this test; wrappers below are verbatim copies
 of the thesis code, adapted only in that the forecast/demand lookups are

@@ -7,17 +7,16 @@ here is a substitute for the frozen source files listed as missing.
 
 | Artifact | Location | Notes |
 |---|---|---|
-| Base simulator | `Supplychaingeo_item50.py` | SHA-256 `604b62788548…` (audited) |
-| Extended simulator (v2) | `Supplychaingeo_item50_v2.py` | SHA-256 `12fe0cdc7a96…` (audited); imports the base module, so both files must stay in the repository root |
+| Base simulator | `Supplychaingeo_item50.py` | SHA-256 `604b62788548…` recorded |
+| Extended simulator (v2) | `Supplychaingeo_item50_v2.py` | SHA-256 `12fe0cdc7a96…` recorded; imports the base module, so both files must stay in the repository root |
 | Short-horizon runner | `thesis_short_horizon_experiments.py` | 2,000 / 3,000 / 5,000-day configurations; daily-aggregate inventory metrics (v2), auditable totals, run manifest, overwrite protection, pre-save validation |
 | Alignment analysis (F03) | `scripts/alignment_analysis.py` | Joined forecast↔inventory rank alignment; mean-of-item primary + median sensitivity + horizon/scenario breakdowns; synthetic-tested; not run on real outputs |
 | Inventory recomputation (F01) | `scripts/recompute_inventory_windows.py` | One common test window, daily-aggregate definitions (v2); synthetic-tested; real-data run blocked |
 | Forecast recomputation (F05) | `scripts/recompute_forecast_metrics.py` | One consistent definition + 7300-day adapter, finite-value checks; synthetic-tested; real-data run blocked |
-| Test suite | `tests/` | 104 tests, all passing (synthetic fixtures + F04 on the real simulator + runner metric/manifest/validation tests) |
+| Test suite | `tests/` | 109 tests, all passing (synthetic fixtures + F04 on the real simulator + runner metric/manifest/validation tests) |
 | Organized 7,300-day notebook | `notebooks/thesis_7300day_notebook_organized_plain_text.ipynb` | 114 cells; saved outputs preserved; SHA-256 `26bd7c97…` |
-| Archived working notebook | `notebooks/archive/thesis_working_notebook_7300_days.ipynb` | 106 cells; hash matches the original working notebook |
 | Protocol, methodology, validation docs | `docs/` | See `docs/README.md` |
-| Citation file | `CITATION.cff` | Author + repo URL; no DOI/version/date (intentional — not invented) |
+| Citation file | `CITATION.cff` | Author + repo URL; no DOI/version/date (intentional - not invented) |
 
 ## Missing (not in this repository)
 
@@ -26,21 +25,21 @@ These files live on the author's machine under `D:\ISOMORPH\thesis_frozen\`
 **not** reproduced, fabricated, or replaced here. The F01/F05 scripts
 fail explicitly if they are absent.
 
-**F01 — frozen inventory records (48 files):** per scenario
+**F01 - frozen inventory records (48 files):** per scenario
 (`normal`, `demand_disruption_full`, `supply_disruption_full`,
 `combined_disruption_full`) × per model (`seasonal_naive`, `ets`,
 `lightgbm`) × `daily_records.csv`, `inventory_history.csv`,
 `backlog_history.csv`, `shipments.csv`.
 
-**F01/F05 — frozen demand (4 files):**
+**F01/F05 - frozen demand (4 files):**
 `thesis_frozen\{normal,demand_disruption,supply_disruption,combined_disruption}\daily_records.csv`
 (training series for the MASE denominator + demand cross-checks).
 
-**F05 — forecast files:**
+**F05 - forecast files:**
 - `forecast_results\demand_disruption\{seasonal_naive_test,ets_test,lightgbm_test}.csv`
 - `forecast_results\supply_disruption\test_forecasts.csv`
 - `forecast_results\combined_disruption\test_forecasts.csv`
-- `forecast_results\normal\test_forecasts.csv` — provenance unresolved:
+- `forecast_results\normal\test_forecasts.csv` - provenance unresolved:
   no notebook cell writes it; cell 91 searches for it.
 
 **Runner outputs:** no `all_inventory_outcomes.csv`,
@@ -48,33 +47,10 @@ fail explicitly if they are absent.
 short-horizon runner exist in this repository (the runner has not
 been executed to produce them here).
 
-**Submitted thesis PDF:** not included in this package. The thesis
-document itself is separate from this code repository; do not treat
-the methodological record or the colloquium slides as the submitted
-thesis. Public redistribution of the thesis PDF has not been
-confirmed; do not add it to a public package without the author's
-explicit authorization.
+## License
 
-## Sharing drafts are outside this repository
-
-Professor-facing sharing notes, email and LinkedIn drafts, and the
-license recommendation are personal communication drafts. They are
-kept OUTSIDE this repository (in the author's workspace, not in the
-project tree) and are not part of the public package. No license file
-is included: simulator provenance, ownership, and redistribution
-permission have not been established.
-
-## Baseline note
-
-The working copy was built from the verified portfolio-state
-repository. Two earlier ZIP snapshots (repo ZIP, portfolio ZIP) were
-inspected as baseline; neither contains the newer `scripts/` or
-`tests/` structure, and neither contains Git history. The ZIP named
-`thesis-forecast-inventory-alignment-main.zip` was not present in the
-workspace at audit time; the two present ZIPs were used instead.
-The candidate has no `.git` directory, so no local Git history
-exists to inspect (see the secret-scan note in
-`docs/validation_and_limitations.md`).
+No license file is included: simulator provenance, ownership, and
+redistribution permission have not been established.
 
 ## Known duplicate (do not use as independent evidence)
 
@@ -84,13 +60,16 @@ and `Inventory_Outcomes_3000.csv` are byte-for-byte identical
 3,000-day inventory ranking files. The 5,000-day forecast files do
 differ. The 5,000-day inventory evidence is therefore not
 independently substantiated by those files. These supplied files are
-not included in this repository.
+not included in this repository. Method, source, and uncertainty:
+`docs/reproducibility_and_validation.md` §1.
 
 ## Consequences
 
-- No thesis numerical result in this package is independently
-  recomputed or verified against real outputs (see
-  `docs/validation_and_limitations.md`).
+- No thesis numerical result in this package has been recomputed
+  from the original experimental records (see
+  `docs/validation_and_limitations.md`). Consistency checks
+  calculated from values printed in the thesis are labelled as
+  such in `docs/thesis_traceability_matrix.md`.
 - The F01/F05 scripts and the F03 alignment script are validation
   tooling, tested on synthetic fixtures. Running them on the frozen
   files above is the remaining step for real-data verification.
