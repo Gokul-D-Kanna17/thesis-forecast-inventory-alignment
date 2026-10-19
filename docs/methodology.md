@@ -48,12 +48,22 @@ Per item, over the same test window:
   and pooled MASE are never substituted. Under complete coverage,
   pooled MAE equals mean-of-item MAE (equal rows per item), but pooled
   RMSE and pooled MASE generally differ from mean-of-item values; the
-  F05 script's synthetic tests prove it uses the mean-of-item values.
+  F05 script's synthetic tests show it uses the mean-of-item values.
   **Median-of-item ranks** are computed as a separate F03 sensitivity
   analysis (see §5.1), labelled as sensitivity; the primary analysis
   uses mean-of-item ranks.
-- MASE denominator must be > 0 per item; a zero denominator (exactly
-  7-periodic training series) is an explicit error, not a silent NaN.
+- **Zero denominator differs by component.** A zero denominator
+  (exactly 7-periodic training series) means MASE is undefined, and
+  the three implementations do not handle it the same way. The
+  notebook cells (67/81/89) have no explicit handling (plain
+  division). The runner records NaN for that item, prints an
+  explicit warning naming the (model, item) pairs, and continues
+  (summary means skip NaN); the F03 script rejects non-finite
+  values downstream. The F05 script instead raises ValueError and
+  the run fails. The metric definition above matches the primary
+  implementation (notebook cells 67, 81, 89; runner); the
+  degenerate-case handling does not match across components, so
+  degenerate-case outputs must not be compared across components.
 - **Finite values.** Non-finite forecast/actual/demand values (NaN,
   ±inf) are rejected explicitly by the F05 script, the F03 script,
   and the runner; they must never silently produce a metric or rank.
@@ -226,9 +236,12 @@ direction, not a desirability judgement.
    for levels, with daily-aggregate definitions (v2) matching the
    notebook's groupby-day-sum aggregation. The notebook cells may
    have used before-ship columns (`dest_on_hand_end_before_ship`,
-   `dest_backlog_end_before_ship`) for some metrics. This
-   definitional difference must be reconciled when (not before)
-   recomputed values are compared to locked values.
+   `dest_backlog_end_before_ship`) for some metrics. These are
+   different definitions: end-of-day-snapshot metrics and
+   before-ship-column metrics must not be treated as equivalent
+   or interchangeable. This definitional difference must be
+   reconciled when (not before) recomputed values are compared
+   to locked values.
 9. **Combined provenance.** Cell 109's locked table is hardcoded and
    does not read cell 106's outputs; the match to cell 106 is
    supported but not proven (transcription). Cell 106's Combined

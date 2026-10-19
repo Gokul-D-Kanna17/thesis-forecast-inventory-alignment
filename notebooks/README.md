@@ -24,6 +24,7 @@ The organized notebook's code was corrected for demonstrable bugs. Cell indices 
 | Cell | Correction |
 | --- | --- |
 | 22 | `!pip install matplotlib` removed; dependency installation belongs in the environment setup (`requirements.txt`). |
+| 45 | `!{sys.executable} -m pip install statsmodels` removed; same reason. |
 | 56 | `!pip install lightgbm` removed; same reason. |
 | 93 | Cross-scenario forecast-file fallback removed: the Combined experiment now requires its own `forecast_results/combined_disruption/test_forecasts.csv` and raises `FileNotFoundError` if it is missing. Previously it silently fell back to Demand / Normal / Supply files (the actuals check then failed with 164,610 mismatches). |
 | 100 | Expected rows per model corrected from `50 * 1000` (50,000) to `50 * 1100` (55,000): the test window is days 6200–7299 inclusive = 1,100 days × 50 items. |

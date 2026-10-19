@@ -11,6 +11,14 @@ holds the code, the checks, and the record of how they were done.
 It does **not** try to crown one forecasting model the
 universal winner - that was never the point.
 
+**A note on what this repo does not do:** no thesis result here
+has been reproduced from the original experimental records
+(forecast files, inventory histories, runner outputs), because
+those records are not in this repository. What the repo holds
+is the code, the checks I ran, and an honest record of where
+each thesis claim stands. Details:
+[Validation and limitations](docs/validation_and_limitations.md).
+
 ## The problem
 
 Forecasting methods are usually compared on prediction error. But
@@ -100,24 +108,16 @@ descriptive-metric framework give different results. Mean absolute
 rank differences came out near one rank position. These are
 descriptive results, not inferential estimates.
 
-**Where things stand:** I have not yet run the full alignment
-analysis on real experiment outputs. The supplied 5,000-day
-inventory-outcome and inventory-ranking files turned out to be
-byte-for-byte duplicates of the 3,000-day ones. The 7,300-day
-notebook also has failed Combined Disruption check cells next
-to later passing assembly and inventory cells (see the
-validation notes for the cell-level status). So those files
-don't independently validate the reported 5,000-day inventory
-evidence, and the cross-horizon summaries shouldn't be read as
-fully verified until the source outputs are reconciled.
-Consistency checks calculated from values printed in the
-thesis (appendix tables) are labelled as such in the
-traceability notes; they compare the printed tables against
-each other and do not reproduce the experiment. The known
-issues and protocol differences are in
-[Validation and reproducibility status](docs/reproducibility_and_validation.md)
-and [Validation and limitations](docs/validation_and_limitations.md).
-The full claim-by-claim mapping is in
+**Where things stand:** the alignment analysis is implemented
+and tested on synthetic data but not yet run on real experiment
+outputs; the supplied 5,000-day inventory files duplicate the
+3,000-day ones; and the 7,300-day notebook's Combined section
+still needs its checks reconciled. Consistency checks
+calculated from values printed in the thesis (appendix tables)
+are labelled as such in the traceability notes; they compare
+the printed tables against each other and do not reproduce the
+experiment. The full claim-by-claim mapping, with method,
+source, and uncertainty for each check, is in
 [the traceability notes](docs/thesis_traceability_matrix.md).
 
 Results should be read in light of how they were produced and
@@ -217,7 +217,8 @@ checked, not just how they're presented.
 Python 3.9 or newer for the short-horizon runner. The original
 7,300-day notebook metadata points to a Python 3.12 environment
 named `ISOMORPH`; I don't have an exact historical environment
-lock file (a known limitation - dependencies are unpinned).
+lock file (a known limitation - five packages are pinned in
+`requirements.txt`, matplotlib/ipython are not).
 
 ```bash
 python -m venv .venv
@@ -298,19 +299,14 @@ one-command reproduction of every thesis table**.
   expects simulation data/results that aren't included here. I
   haven't re-executed it in a clean environment as part of this
   package.
-- The notebook has three saved error cells in the Combined
-  Disruption section (cells 93, 100, 103) next to later passing
-  assembly and inventory cells (104–106). I fixed the code of
-  cells 93, 100, 103, 106 and 109 for demonstrable bugs
-  (fallback removed, row-count and per-model checks fixed,
-  test-window aggregation, snapshot labelling - see
-  `notebooks/README.md`), but I have NOT re-executed the notebook
-  after those fixes, so the saved outputs predate the corrected
-  code. The locked master table (cell 109) is hardcoded literals
-  with no file reads and no programmatic link to the earlier
-  cells, and its MASE values don't match any in-notebook
-  calculation from the Combined file (see validation notes).
-  The saved outputs should be read with that in mind.
+- The 7,300-day notebook has three saved error cells in the
+  Combined Disruption section (93, 100, 103). I corrected the
+  code of cells 93, 100, 103, 106, and 109 without
+  re-executing, so the saved outputs predate the corrected
+  code; the locked master table (cell 109) is hardcoded
+  literals. Cell-level detail:
+  [traceability notes](docs/thesis_traceability_matrix.md),
+  [`notebooks/README.md`](notebooks/README.md).
 - The 7,300-day Supply Disruption LightGBM procedure differs
   from the shorter-horizon one in refitting behavior and
   prediction clipping.

@@ -240,8 +240,8 @@ re-explaining it.
 | Notebook cells 77/89 incomplete saved outputs (F07) | **Confirmed** (cell 77 ends Day 2045/7300; cell 89 ends item 43/50). Completion not demonstrated by saved outputs. |
 | Tie handling differs (runner `average` vs notebook cell 109 `min`) | **Confirmed.** F03 uses `average`, matching the runner; documented in `docs/methodology.md`. |
 | Runner ranks 10 inventory metrics; locked table ranks 6 | **Fixed.** The runner now ranks the same 6 primary metrics; the wider set is descriptive. |
-| Requirements unpinned; no lock file; README Python 3.9+ vs notebook Python 3.12.13 | **Confirmed.** Documented in README setup section. Unresolved (no lock file; versions not reconstructed). |
-| Notebook `D:\ISOMORPH\...` paths; `!pip install` cells | **Confirmed.** Notebook is not clean-room executable. Documented; paths in this repo's user-facing docs are configurable placeholders, except provenance references to original file locations. |
+| Requirements partially pinned (5 packages); matplotlib/ipython unpinned; no lock file; README Python 3.9+ vs notebook Python 3.12.13 | **Confirmed.** Documented in README setup section. Unresolved (no lock file; versions not reconstructed). |
+| Notebook `D:\ISOMORPH\...` paths | **Confirmed.** The `!pip install` cells (22, 45, 56) have been removed; the notebook still references local paths and needs external simulation data, so it is not clean-room executable. Documented; paths in this repo's user-facing docs are configurable placeholders, except provenance references to original file locations. |
 | Single seed (2025), single realization; 50 SKUs share one network | **Confirmed.** Stated as a limitation in README + methodology. |
 | No PNG/CSV/HTML result artifacts in the repository | **Confirmed.** By design: raw outputs are excluded via `.gitignore`; the manifest lists what is missing. |
 | Locked table (cell 109) hardcoded, no file reads | **Confirmed.** Transcription from cell 106 supported but not proven; MASE source unresolved. Do not alter locked values without evidence and a documented reason. |
@@ -253,7 +253,7 @@ re-explaining it.
 1. F04 equivalence on the real simulator under matched synthetic
    inputs (see F04 above).
 2. F01/F03/F05 code logic on synthetic fixtures (109 tests total
-   in this package: 48 F03 + 7 F04 + 14 F01 + 17 F05 + 18 runner),
+   in this package: 50 F03 + 7 F04 + 14 F01 + 17 F05 + 21 runner),
    including adversarial validation and hand-computed values.
 3. Runner aggregation/validation/manifest/overwrite logic on
    hand-computed fixtures (18 tests); the runner itself has not

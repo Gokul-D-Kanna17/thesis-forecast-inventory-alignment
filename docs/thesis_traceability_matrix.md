@@ -160,12 +160,31 @@ Thesis reports (MAD / exact): 2,000d 0.933 / 32.5%;
 3,000d 0.967 / 25.8%; 5,000d 1.050 / 25.0%;
 7,300d 0.990 / 32.3%.
 
+What "456" means. A combination is one (horizon, scenario,
+forecast metric, inventory metric); each combination holds
+3 model rows. The 456 count is:
+(3 shorter horizons × 4 scenarios × 3 forecast metrics ×
+10 inventory metrics) + (7,300 days × 4 scenarios × 3
+forecast metrics × 8 inventory metrics) = 360 + 96 = 456.
+The 10 metrics at 2,000/3,000/5,000 days are the 6 primary
+plus final destination backlog, max destination inventory,
+max network inventory, and shipment units; at 7,300 days
+the two max-inventory metrics are unavailable, leaving 8
+(the 6 primary plus final backlog and shipments). Per-horizon
+exact-agreement denominators (model rows) are therefore
+360 / 360 / 360 / 288. The 288 framework is 4 horizons ×
+4 scenarios × 3 forecast metrics × 6 primary inventory
+metrics = 288 combinations (864 model rows); its
+per-horizon denominator is 216 model rows.
+
 Method: ranks recomputed from the printed Appendix B.4
 values, plus unrounded Normal fill rates from the locked
-table (the only unrounded values available). Source: thesis
-Appendix B.4, Table 4.2, locked table. This is a
-printed-value consistency check, not a reproduction from
-experimental records.
+table (the only unrounded values available). Shipments
+ranked lower-is-better (an assumption; the thesis assigns
+it no direction). Source: thesis Appendix B.4, Table 4.2,
+locked table. This is a printed-value consistency check,
+not a reproduction from experimental records. I re-ran the
+recomputation to verify the arithmetic below.
 
 I recomputed the 7,300-day statistics from Appendix B.4
 values (+ unrounded Normal fill rates from the locked table):
@@ -176,7 +195,16 @@ values (+ unrounded Normal fill rates from the locked table):
 | 456 framework, min ties | **0.9896 (285/288)** | **32.29% (93/288)** |
 | 456 framework, average ties | 0.9792 (282/288) | 32.29% (93/288) |
 | 288 framework (either tie method) | 0.9722 (210/216) | 34.72% (75/216) |
-| 288 framework, B.8 printed ranks | 0.9167 | 36.11% |
+| 288 framework, B.8 printed ranks | 0.9167 (198/216) | 36.11% (78/216) |
+
+The other horizons check out as whole-number counts under
+456: 2,000d exact 32.5% = 117/360; 3,000d 25.8% = 93/360;
+5,000d 25.0% = 90/360; 7,300d 32.3% = 93/288. The MAD
+values fit whole numerators too: 336/360 = 0.9333;
+348/360 = 0.9667; 378/360 = 1.050; 285/288 = 0.9896. Under
+the 288 framework, the 2,000-day exact value would need
+0.325 × 216 = 70.2 model rows, which is not a whole number
+- Table 4.2's values cannot come from the 288 framework.
 
 What this tells me: (a) Table 4.2's 7,300-day values match
 the **456 framework with min ties** to the printed
@@ -194,10 +222,12 @@ whole-number counts (117/360, 93/360, 90/360) but not the
 number) - consistent with 456 provenance for all horizons,
 though I only fully recomputed 7,300 days.
 
-Uncertainty: the thesis does not state which framework
-Table 4.2 uses. The 456 attribution is an inference from
-the numbers matching under 456 + min ties and not matching
-under 288, not a stated fact.
+Uncertainty: the arithmetic above is verified, but the
+thesis does not state which framework Table 4.2 uses. The
+456 attribution is an inference from the numbers matching
+under 456 + min ties and not matching under 288, not a
+stated fact. It also rests on two assumptions: shipments
+ranked lower-is-better, and min ties.
 
 ### 9.4 Table 4.3 - Fill-rate ranges at 7,300 days
 
